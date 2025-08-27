@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Sigalit Project - Pre-commit Hook
+# This hook reminds developers about session startup requirements
+
+echo "🔍 Sigalit Pre-commit Check..."
+echo ""
+
+# Check if session startup has been completed
+if [ ! -f ".session_startup_completed" ]; then
+    echo "⚠️  WARNING: Session startup not completed!"
+    echo ""
+    echo "📚 Before committing, please ensure you have:"
+    echo "   ✅ Read SESSION_STARTUP.md"
+    echo "   ✅ Read PROJECT.md for current status"
+    echo "   ✅ Read tasks/README.md for task status"
+    echo "   ✅ Run 'npm run session:start' if needed"
+    echo ""
+    echo "💡 To mark session startup as complete, run:"
+    echo "   touch .session_startup_completed"
+    echo ""
+    echo "🚫 Commit blocked until session startup is completed."
+    exit 1
+fi
+
+echo "✅ Session startup completed - proceeding with commit..."
+echo ""
+
+# Run standard checks
+npm run lint
+npm run typecheck

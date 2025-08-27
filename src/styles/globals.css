@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* BEAUTIFUL LIGHT THEME - Clean and Modern Design */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: #fafafa !important;
+  color: #1f2937 !important;
+  font-family: var(--font-heebo), 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove ALL dark mode styles */
+.dark,
+[data-theme="dark"],
+*[class*="dark:"] {
+  background: white !important;
+  color: #1f2937 !important;
+}
+
+@theme {
+  --font-sans: var(--font-heebo), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Hebrew Font Support */
+.font-hebrew {
+  font-family: var(--font-heebo), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Custom Scrollbar for RTL */
+[dir="rtl"] ::-webkit-scrollbar {
+  width: 8px;
+}
+
+[dir="rtl"] ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+[dir="rtl"] ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+[dir="rtl"] ::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* RTL Form Elements */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+}
+
+/* RTL Button Icons */
+[dir="rtl"] .btn-icon {
+  flex-direction: row-reverse;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  [dir="rtl"] ::-webkit-scrollbar-track {
+    background: #374151;
+  }
+  
+  [dir="rtl"] ::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+  
+  [dir="rtl"] ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+}

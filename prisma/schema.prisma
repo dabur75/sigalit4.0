@@ -1,0 +1,409 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model House {
+  id          String       @id @default(cuid())
+  name        String
+  code        String       @unique
+  description String?
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  constraints Constraint[]
+  shifts      Shift[]
+  users       User[]
+  weeklySchedules WeeklySchedule[]
+  oneTimeOverrides OneTimeOverride[]
+  shiftTasks ShiftTask[]
+  medicalReferrals MedicalReferral[]
+  shiftInstructors ShiftInstructor[]
+  internalMessages InternalMessage[]
+  // Scheduling module relations
+  schedules Schedule[]
+  coordinatorRules CoordinatorRule[]
+
+  @@index([name])
+  @@index([code])
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String
+  username      String       @unique
+  role          UserRole
+  email         String       @unique
+  phone         String?
+  password      String
+  isActive      Boolean      @default(true)
+  houseId       String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  constraints   Constraint[]
+  sessions      Session[]
+  shifts        Shift[]
+  house         House?       @relation(fields: [houseId], references: [id])
+  shiftInstructors ShiftInstructor[]
+  internalMessages InternalMessage[]
+  // Scheduling module relations
+  schedules Schedule[]
+  scheduleAssignments ScheduleAssignment[]
+  createdAssignments ScheduleAssignment[] @relation("AssignmentCreator")
+  weeklyConstraints WeeklyConstraint[]
+  approvedConstraints WeeklyConstraint[] @relation("ConstraintApprover")
+  coordinatorRules CoordinatorRule[]
+  dynamicConstraints DynamicConstraint[]
+
+  @@index([email])
+  @@index([username])
+  @@index([role])
+  @@index([houseId])
+}
+
+model Shift {
+  id        String    @id @default(cuid())
+  date      DateTime
+  guideId   String
+  houseId   String
+  role      String
+  type      ShiftType
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  guide     User      @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  house     House     @relation(fields: [houseId], references: [id], onDelete: Cascade)
+
+  @@index([date])
+  @@index([guideId])
+  @@index([houseId])
+  @@index([type])
+}
+
+model Constraint {
+  id          String         @id @default(cuid())
+  userId      String
+  houseId     String
+  date        DateTime
+  type        ConstraintType
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  house       House          @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([houseId])
+  @@index([date])
+  @@index([type])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum UserRole {
+  GUIDE
+  COORDINATOR
+  ADMIN
+}
+
+enum ShiftType {
+  MORNING
+  AFTERNOON
+  EVENING
+  NIGHT
+  // New scheduling system shift types
+  WEEKDAY
+  OPEN_WEEKEND
+  CLOSED_WEEKEND
+  HOLIDAY
+}
+
+enum ConstraintType {
+  UNAVAILABLE
+  PREFERRED
+  REQUIRED
+}
+
+// Weekly Schedule Models
+model WeeklySchedule {
+  id            String   @id @default(cuid())
+  houseId       String
+  house         House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  dayOfWeek     Int      // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+  time          String   // "09:00:00"
+  activityName  String
+  instructor    String
+  activityType  String   // "טיפולית", "אומנות", "ספורט", etc.
+  note          String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([dayOfWeek])
+  @@index([isActive])
+}
+
+model OneTimeOverride {
+  id                String   @id @default(cuid())
+  houseId           String
+  house             House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  date              DateTime
+  originalScheduleId String? // קישור ללו"ז הקבוע (אופציונלי)
+  time              String
+  activityName      String
+  instructor        String
+  activityType      String
+  note              String?
+  reason            String   // סיבת האוברייד
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([date])
+  @@index([isActive])
+}
+
+// Shift Management Models
+model ShiftTask {
+  id          String   @id @default(cuid())
+  houseId     String
+  house       House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  date        DateTime
+  assignedTo  String?  // User ID
+  status      TaskStatus @default(PENDING)
+  priority    TaskPriority @default(MEDIUM)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([date])
+  @@index([status])
+  @@index([assignedTo])
+}
+
+model MedicalReferral {
+  id          String   @id @default(cuid())
+  houseId     String
+  house       House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  patientName String
+  reason      String
+  doctorName  String
+  date        DateTime
+  status      ReferralStatus @default(PENDING)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([date])
+  @@index([status])
+}
+
+model ShiftInstructor {
+  id          String   @id @default(cuid())
+  houseId     String
+  house       House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        DateTime
+  shiftType   ShiftType
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([date])
+  @@index([userId])
+  @@index([shiftType])
+}
+
+model InternalMessage {
+  id        String   @id @default(cuid())
+  houseId   String
+  house     House    @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([houseId])
+  @@index([senderId])
+  @@index([createdAt])
+}
+
+// Enums for new models
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ReferralStatus {
+  PENDING
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
+
+// Scheduling Module Enums
+enum ScheduleStatus {
+  DRAFT
+  REVIEW
+  FORMAL
+  ARCHIVED
+}
+
+enum AssignmentRole {
+  REGULAR  // רגיל - 24 hours
+  OVERLAP  // חפיפה - 25 hours
+  STANDBY  // כונן
+  MOTZASH  // מוצ״ש
+}
+
+enum ConstraintStatus {
+  ACTIVE
+  PAUSED
+  DELETED
+}
+
+// Scheduling Module Models
+model Schedule {
+  id          String   @id @default(cuid())
+  month       Int      // 1-12
+  year        Int      // 2024+
+  version     Int      @default(1)
+  status      ScheduleStatus @default(DRAFT)
+  houseId     String
+  house       House    @relation(fields: [houseId], references: [id])
+  createdBy   String
+  creator     User     @relation(fields: [createdBy], references: [id])
+  createdAt   DateTime @default(now())
+  finalizedAt DateTime?
+  assignments ScheduleAssignment[]
+  
+  @@unique([month, year, houseId, version])
+  @@index([houseId])
+  @@index([createdBy])
+  @@index([status])
+}
+
+model ScheduleAssignment {
+  id         String   @id @default(cuid())
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  date       DateTime
+  guideId    String
+  guide      User     @relation(fields: [guideId], references: [id])
+  role       AssignmentRole // REGULAR or OVERLAP
+  shiftType  ShiftType      // WEEKDAY, OPEN_WEEKEND, CLOSED_WEEKEND, HOLIDAY
+  isManual   Boolean  @default(false)
+  isLocked   Boolean  @default(false)
+  isConfirmed Boolean @default(false)
+  rejectionReason String?
+  createdBy  String
+  creator    User     @relation("AssignmentCreator", fields: [createdBy], references: [id])
+  createdAt  DateTime @default(now())
+  
+  @@unique([scheduleId, date, role])
+  @@index([guideId, date])
+  @@index([scheduleId])
+  @@index([createdBy])
+}
+
+model WeeklyConstraint {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  dayOfWeek  Int      // 0-6 (Sunday-Saturday)
+  status     ConstraintStatus @default(ACTIVE) // ACTIVE, PAUSED, DELETED
+  reason     String?
+  approvedBy String?
+  approver   User?    @relation("ConstraintApprover", fields: [approvedBy], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  @@unique([userId, dayOfWeek])
+  @@index([userId])
+  @@index([status])
+}
+
+model CoordinatorRule {
+  id         String   @id @default(cuid())
+  houseId    String
+  house      House    @relation(fields: [houseId], references: [id])
+  ruleType   String   // NO_PAIR, MANUAL_ONLY, NO_WEEKENDS, etc.
+  parameters Json     // Flexible JSON for rule-specific data
+  isActive   Boolean  @default(true)
+  createdBy  String
+  creator    User     @relation(fields: [createdBy], references: [id])
+  createdAt  DateTime @default(now())
+  
+  @@index([houseId])
+  @@index([createdBy])
+  @@index([isActive])
+}
+
+model DynamicConstraint {
+  id          String   @id @default(cuid())
+  guideId     String
+  guide       User     @relation(fields: [guideId], references: [id])
+  blockedDate DateTime
+  sourceDate  DateTime // The assigned date causing this block
+  scheduleId  String
+  
+  @@unique([guideId, blockedDate, scheduleId])
+  @@index([scheduleId])
+  @@index([guideId])
+}

@@ -1,0 +1,265 @@
+
+> sigalit-new@0.1.0 dev
+> next dev --turbo --port 8080
+
+   ▲ Next.js 15.5.0 (Turbopack)
+   - Local:        http://localhost:8080
+   - Network:      http://10.100.102.10:8080
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1707ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4.5s
+ ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET / 200 in 5410ms
+ ✓ Compiled /_not-found/page in 428ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /login 404 in 770ms
+ ✓ Compiled /auth/signin in 463ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 690ms
+ ✓ Compiled in 221ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 204ms
+ ✓ Compiled in 334ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 240ms
+ ✓ Compiled in 184ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 151ms
+ ✓ Compiled in 132ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 222ms
+ ✓ Compiled in 183ms
+ ⚠ Unsupported metadata viewport is configured in metadata export in /auth/signin. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ GET /auth/signin 200 in 180ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ✓ Compiled in 181ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.2s
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.7c8cvjkhs3p'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.7c8cvjkhs3p'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.46h729enrb7'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.46h729enrb7'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.iyomxg0lux'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.iyomxg0lux'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.4yaqcfvkl8x'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.4yaqcfvkl8x'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.5gwsj7gqhja'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.5gwsj7gqhja'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.oym63nb0o8'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/static/development/_buildManifest.js.tmp.oym63nb0o8'
+}
+ ✓ Compiled in 145ms
+ ✓ Compiled in 99ms
+ ✓ Compiled in 275ms
+ ✓ Compiled in 77ms
+ ✓ Compiled / in 24ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/auth/signin/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+ ✓ Compiled in 135ms
+ ✓ Compiled / in 26ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/app/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/dvirhillelcoheneraki/sigalit4.0/sigalit-new/.next/server/pages/_app/build-manifest.json'
+}
+[?25h
