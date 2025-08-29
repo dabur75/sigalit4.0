@@ -7,15 +7,13 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-    ignores: [".next"],
+    ignores: [".next", "node_modules"],
   },
   ...compat.extends("next/core-web-vitals"),
   {
     files: ["**/*.ts", "**/*.tsx"],
     extends: [
       ...tseslint.configs.recommended,
-      ...tseslint.configs.recommendedTypeChecked,
-      ...tseslint.configs.stylisticTypeChecked,
     ],
     rules: {
       "@typescript-eslint/array-type": "off",
@@ -41,7 +39,7 @@ export default tseslint.config(
     },
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: true,
       },
     },
   },

@@ -174,6 +174,26 @@ const getConstraintsForApprovalSchema = z.object({
   houseId: z.string(),
 });
 
+const getGuideMonthlyStatsSchema = z.object({
+  month: z.number().min(1).max(12),
+  year: z.number().min(2020).max(2030),
+  houseId: z.string(),
+});
+
+const getAssignmentsByScheduleSchema = z.object({
+  scheduleId: z.string(),
+});
+
+const getGuideConstraintCountsSchema = z.object({
+  month: z.number().min(1).max(12),
+  year: z.number().min(2020).max(2030),
+  houseId: z.string(),
+});
+
+const deleteMonthlyConstraintSchema = z.object({
+  constraintId: z.string(),
+});
+
 export const schedulingRouter = createTRPCRouter({
   // Create a new schedule for a month
   createSchedule: protectedProcedure
@@ -1699,6 +1719,186 @@ export const schedulingRouter = createTRPCRouter({
           startDate: input.startDate,
           endDate: input.endDate,
         },
+      };
+    }),
+
+  // ===============================
+  // SCHEDULE ASSIGNMENT MANAGEMENT
+  // ===============================
+
+  // Get assignments by schedule
+  getAssignmentsBySchedule: protectedProcedure
+    .input(getAssignmentsByScheduleSchema)
+    .query(async ({ ctx, input }) => {
+      const { db } = ctx;
+
+      return db.scheduleAssignment.findMany({
+        where: {
+          scheduleId: input.scheduleId,
+        },
+        include: {
+          guide: { select: { id: true, name: true, username: true } },
+          schedule: { select: { id: true, month: true, year: true } },
+        },
+        orderBy: [
+          { date: 'asc' },
+          { role: 'asc' },
+        ],
+      });
+    }),
+
+  // Get guide monthly statistics for fairness tracking
+  getGuideMonthlyStats: protectedProcedure
+    .input(getGuideMonthlyStatsSchema)
+    .query(async ({ ctx, input }) => {
+      const { db } = ctx;
+
+      // Get start and end dates for the month
+      const startDate = new Date(input.year, input.month - 1, 1);
+      const endDate = new Date(input.year, input.month, 0);
+
+      // Get all assignments for guides in the house for this month
+      const assignments = await db.scheduleAssignment.findMany({
+        where: {
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+          guide: {
+            houseId: input.houseId,
+          },
+        },
+        include: {
+          guide: { select: { id: true, name: true, username: true } },
+        },
+      });
+
+      // Group by guide and count assignments
+      const statsMap = new Map();
+      
+      assignments.forEach(assignment => {
+        const guideId = assignment.guide.id;
+        if (!statsMap.has(guideId)) {
+          statsMap.set(guideId, {
+            guideId,
+            guideName: assignment.guide.name,
+            totalAssignments: 0,
+            regularShifts: 0,
+            backupShifts: 0,
+          });
+        }
+        
+        const stats = statsMap.get(guideId);
+        stats.totalAssignments++;
+        
+        if (assignment.role === AssignmentRole.REGULAR) {
+          stats.regularShifts++;
+        } else if (assignment.role === AssignmentRole.BACKUP) {
+          stats.backupShifts++;
+        }
+      });
+
+      return Array.from(statsMap.values());
+    }),
+
+  // Get constraint counts for each guide in a house for a specific month
+  getGuideConstraintCounts: protectedProcedure
+    .input(getGuideConstraintCountsSchema)
+    .query(async ({ ctx, input }) => {
+      const { session, db } = ctx;
+      const user = session.user;
+
+      // Check permissions for house access
+      if (user.role === UserRole.GUIDE && user.houseId !== input.houseId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You can only view constraint counts for your assigned house',
+        });
+      }
+
+      if (user.role === UserRole.COORDINATOR && user.houseId !== input.houseId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You can only view constraint counts for your assigned house',
+        });
+      }
+
+      // Get start and end dates for the month
+      const startDate = new Date(input.year, input.month - 1, 1);
+      const endDate = new Date(input.year, input.month, 0);
+
+      // Get all constraints for guides in the house for this month
+      const constraints = await db.constraint.findMany({
+        where: {
+          houseId: input.houseId,
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+          user: {
+            role: UserRole.GUIDE,
+          },
+        },
+        select: {
+          userId: true,
+        },
+      });
+
+      // Count constraints per guide
+      const counts: Record<string, number> = {};
+      constraints.forEach(constraint => {
+        counts[constraint.userId] = (counts[constraint.userId] || 0) + 1;
+      });
+
+      return counts;
+    }),
+
+  // Delete a monthly constraint
+  deleteMonthlyConstraint: protectedProcedure
+    .input(deleteMonthlyConstraintSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { session, db } = ctx;
+      const user = session.user;
+
+      // Get the constraint first to check permissions
+      const constraint = await db.constraint.findUnique({
+        where: { id: input.constraintId },
+        include: {
+          user: { select: { id: true, name: true, houseId: true, role: true } },
+        },
+      });
+
+      if (!constraint) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Constraint not found',
+        });
+      }
+
+      // Check permissions - coordinators/admins can delete constraints for their house
+      if (user.role === UserRole.COORDINATOR && user.houseId !== constraint.houseId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You can only delete constraints for your assigned house',
+        });
+      }
+
+      // Admin can delete any constraint, guide can delete their own
+      if (user.role === UserRole.GUIDE && user.id !== constraint.userId) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You can only delete your own constraints',
+        });
+      }
+
+      // Delete the constraint
+      await db.constraint.delete({
+        where: { id: input.constraintId },
+      });
+
+      return {
+        message: 'Constraint deleted successfully',
+        constraintId: input.constraintId,
       };
     }),
 });

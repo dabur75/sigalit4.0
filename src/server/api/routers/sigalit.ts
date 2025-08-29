@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserRole } from "@prisma/client";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { hashPassword } from "~/lib/auth-utils";
 
@@ -77,12 +78,16 @@ export const sigalitRouter = createTRPCRouter({
   }),
 
   getUsersByHouse: protectedProcedure
-    .input(z.object({ houseId: z.string() }))
+    .input(z.object({ 
+      houseId: z.string(),
+      role: z.nativeEnum(UserRole).optional()
+    }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.user.findMany({
         where: { 
           houseId: input.houseId,
-          isActive: true 
+          isActive: true,
+          ...(input.role && { role: input.role })
         },
         include: {
           house: true,

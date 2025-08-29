@@ -160,6 +160,7 @@ enum ConstraintType {
   UNAVAILABLE
   PREFERRED
   REQUIRED
+  VACATION
 }
 
 // Weekly Schedule Models
